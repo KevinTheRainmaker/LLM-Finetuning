@@ -152,3 +152,15 @@ def train(script_args, training_args):
         trainer.accelerator.state.fsdp_plugin.set_state_dict_type('FULL_STATE_DICT')
     
     trainer.save_model()
+
+if __name__ == '__main__':
+    parser = TrlParser((ScriptArguments, TrainingArguments))
+    script_args, training_args = parser.parse_args_and_config()
+
+    if training_args.gradient_checkpointing:
+        training_args.gradient_checkpointing_kwargs = {'use_reentrant':True}
+    
+    set_seed(training_args.seed)
+
+    # launch training
+    train(script_args, training_args)
