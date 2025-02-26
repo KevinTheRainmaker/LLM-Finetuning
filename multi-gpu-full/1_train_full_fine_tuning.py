@@ -109,13 +109,14 @@ def train(script_args, training_args):
     test_dataset = test_dataset.map(template_dataset, remove_columns=["messages"])
 
     # for check
+    # main_process_first: 메인 프로세스에서 로깅할 때까지 대기 / 중복 로깅 방지
     with training_args.main_process_first(desc='Log a few random samples from the processed training set.'):
         for index in random.sample(range(len(train_dataset)), 2):
             print(train_dataset[index]['text'])
 
     model = AutoModelForCausalLM.from_pretrained(
         script_args.model_name,
-        attn_implementation='sdpa',
+        attn_implementation='sdpa', # Scaled Dot-Product Attention: Q, K 내적 후 스케일링
         torch_dtype=torch.bfloat16,
         use_cache=False if training_args.gradient_checkpointing else True # gradient_checkpointing과 use_cache와 동시 사용 불가
     )
@@ -124,6 +125,7 @@ def train(script_args, training_args):
         model.gradient_checkpointing_enable()
 
     # Train setting
+    # Supervised Fine-Tuning Trainer
     trainer = SFTTrainer(
         model=model,
         args=training_args,
