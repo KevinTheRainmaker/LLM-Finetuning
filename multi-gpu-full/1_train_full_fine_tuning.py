@@ -16,24 +16,24 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 from peft import LoraConfig
 
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
-HF_TOKEN = os.getenv('HF_TOKEN')
-assert HF_TOKEN.endswith('luCk')
+# HF_TOKEN = os.getenv('HF_TOKEN')
+# assert HF_TOKEN.endswith('luCk')
 
-login(
-    token=HF_TOKEN,
-    add_to_git_credential=True
-)
+# login(
+#     token=HF_TOKEN,
+#     add_to_git_credential=True
+# )
 
 
 @dataclass
 class ScriptArguments:
     dataset_path: str = field(default=None, metadata={'help': 'Path to dataset.'})
     model_name: str = field(default=None, metadata={'help':'Model name for SFT Training.'})
-    max_seq_length: int = field(default=None, metadata={'help':'Max Sequence Length for SFT Trainer'})
+    max_seq_length: int = field(default=512, metadata={'help':'Max Sequence Length for SFT Trainer'})
 
 dataset = load_dataset("ccw7463/Ko_ARC_ver0.3")
 # {'instruction': Problem statement, 'input': Options, 'output': Answer}
