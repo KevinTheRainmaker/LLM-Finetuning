@@ -75,8 +75,8 @@ train_dataset = train_dataset['train'].train_test_split(test_size=0.1, seed=42)
 #             ]
 # }
 
-train_dataset['train'].to_json('multi-gpu-full/dataset/Ko_ARC_ver0.3/train_dataset.json', orient='records', force_ascii=False)
-train_dataset['test'].to_json('multi-gpu-full/dataset/Ko_ARC_ver0.3/test_dataset.json', orient='records', force_ascii=False)
+train_dataset['train'].to_json('dataset/Ko_ARC_ver0.3/train_dataset.json', orient='records', force_ascii=False)
+train_dataset['test'].to_json('dataset/Ko_ARC_ver0.3/test_dataset.json', orient='records', force_ascii=False)
 
 LLAMA_3_CHAT_TEMPLATE = (
     "{% for message in messages %}"
